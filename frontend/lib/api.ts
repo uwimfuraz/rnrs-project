@@ -297,6 +297,7 @@ class ApiClient {
     })
   }
 
+
   async deleteResume(resumeId: string): Promise<ApiResponse> {
     return this.request(`/resumes/${resumeId}`, {
       method: 'DELETE',
@@ -438,6 +439,16 @@ class ApiClient {
     })
   }
 
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Retrieves a paginated list of notifications for the authenticated user.
+   * @param {Object} params - Optional parameters to filter the results.
+   * @param {boolean} params.read - Filter by read status (true or false).
+   * @param {number} params.page - Page number to retrieve.
+   * @param {number} params.limit - Number of notifications to retrieve per page.
+   * @returns {Promise<ApiResponse<{ notifications: Notification[]; unreadCount: number }>>} - A promise that resolves to an API response containing the list of notifications and the unread count.
+   */
+/*******  030b99e2-9edf-41b2-ba9d-f45b791c7a9b  *******/
   async getNotifications(params: {
     read?: boolean
     page?: number
@@ -458,6 +469,8 @@ class ApiClient {
     })
   }
 
+
+
   async markAllNotificationsAsRead(): Promise<ApiResponse> {
     return this.request('/notifications/mark-all-read', {
       method: 'PATCH',
@@ -474,10 +487,10 @@ export const clearAuthData = () => {
     localStorage.removeItem('user_data')
   }
 }
-
 export const setAuthData = (token: string, user: User) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem('auth_token', token)
+
     localStorage.setItem('user_role', user.role)
     localStorage.setItem('user_data', JSON.stringify(user))
   }
@@ -485,6 +498,7 @@ export const setAuthData = (token: string, user: User) => {
 
 export const getAuthData = () => {
   if (typeof window !== 'undefined') {
+
     const token = localStorage.getItem('auth_token')
     const role = localStorage.getItem('user_role')
     const userData = localStorage.getItem('user_data')
@@ -497,4 +511,6 @@ export const getAuthData = () => {
   }
   
   return { token: null, role: null, user: null }
+
 }
+
