@@ -1,3 +1,6 @@
+"use client"
+
+import { motion, Variants } from "framer-motion"
 import { Logo } from "@/components/ui/logo"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -6,6 +9,31 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { Search, Users, Briefcase, ArrowRight, CheckCircle } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.8, ease: "easeOut" } 
+  },
+}
+
+const cardContainerVariants: Variants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+}
 
 export default function HomePage() {
   return (
@@ -31,7 +59,7 @@ export default function HomePage() {
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/auth/login">Sign In</Link>
               </Button>
-              <Button size="sm" asChild className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 transition-all duration-300">
+              <Button size="sm" asChild className="bg-gradient-to-r from-[#8B0000] to-[#3b82f6] text-white hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300">
                 <Link href="/auth/signup">Get Started</Link>
               </Button>
             </div>
@@ -40,37 +68,68 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-20 lg:py-28 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
-              <div className="space-y-4">
-                <Badge variant="secondary" className="w-fit bg-primary/10 border-primary/20 text-primary">
-                  Connecting Rwanda's Talent
-                </Badge>
-                <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-balance text-foreground">
+              <motion.div 
+                initial="hidden"
+                animate="visible"
+                variants={cardContainerVariants}
+                className="space-y-4"
+              >
+                <motion.div variants={cardVariants}>
+                  <Badge variant="secondary" className="w-fit bg-primary/10 border-primary/20 text-primary">
+                    Connecting Rwanda's Talent
+                  </Badge>
+                </motion.div>
+                <motion.h1 
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="text-5xl lg:text-6xl font-heading font-bold tracking-tight text-balance text-foreground"
+                >
                   Your career
                   <span className="text-primary"> journey starts here</span>
-                </h1>
-                <p className="text-xl text-muted-foreground text-pretty max-w-lg">
+                </motion.h1>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                  className="text-xl text-muted-foreground text-pretty max-w-lg"
+                >
                   Join Rwanda's premier job marketplace connecting skilled professionals with quality employers. 
                   <span className="font-medium text-primary">Build your future with RNRS.</span>
-                </p>
-              </div>
+                </motion.p>
+              </motion.div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 transition-all duration-300" asChild>
-                  <Link href="/auth/login">
-                    Get Started
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" className="text-base bg-transparent hover:bg-primary/5 transition-all duration-300" asChild>
-                  <Link href="/jobs">Browse Jobs</Link>
-                </Button>
-              </div>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <motion.div whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}>
+                  <Button size="lg" asChild className="text-base w-full sm:w-auto bg-gradient-to-r from-[#8B0000] to-[#3b82f6] text-white button-glow transition-all duration-300">
+                    <Link href="/auth/login">
+                      Get Started
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}>
+                  <Button variant="outline" size="lg" className="text-base w-full sm:w-auto bg-transparent hover:bg-primary/5 transition-all duration-300" asChild>
+                    <Link href="/jobs">Browse Jobs</Link>
+                  </Button>
+                </motion.div>
+              </motion.div>
 
-              <div className="flex items-center gap-8 pt-4">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+                className="flex items-center gap-8 pt-4"
+              >
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">1,200+</div>
                   <div className="text-sm text-muted-foreground">Active Jobs</div>
@@ -83,10 +142,15 @@ export default function HomePage() {
                   <div className="text-2xl font-bold text-primary">800+</div>
                   <div className="text-sm text-muted-foreground">Companies</div>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
-            <div className="relative">
+            <motion.div 
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
+              className="relative"
+            >
               <div className="relative rounded-2xl overflow-hidden shadow-lg">
                 <Image
                   src="/images/hero-team.jpg"
@@ -98,13 +162,19 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/10 to-transparent" />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-muted/30">
+      <motion.section 
+        className="py-24 bg-muted/30"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl font-bold">How RNRS Works</h2>
@@ -113,51 +183,44 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center p-8">
-              <CardContent className="space-y-4">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Search className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Search & Discover</h3>
-                <p className="text-muted-foreground">
-                  Browse thousands of job opportunities from top employers across Rwanda
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center p-8">
-              <CardContent className="space-y-4">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Users className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Apply & Connect</h3>
-                <p className="text-muted-foreground">
-                  Submit applications with your professional profile and track your progress
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center p-8">
-              <CardContent className="space-y-4">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Briefcase className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Get Hired</h3>
-                <p className="text-muted-foreground">
-                  Land your dream job and start building your career with leading companies
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+          <motion.div 
+            className="grid md:grid-cols-3 gap-8"
+            variants={cardContainerVariants}
+          >
+            {[
+              { icon: Search, title: "Search & Discover", description: "Browse thousands of job opportunities from top employers across Rwanda." },
+              { icon: Users, title: "Apply & Connect", description: "Submit applications with your professional profile and track your progress." },
+              { icon: Briefcase, title: "Get Hired", description: "Land your dream job and start building your career with leading companies." }
+            ].map((item, index) => (
+              <motion.div key={index} variants={cardVariants}>
+                <motion.div whileHover={{ y: -8, scale: 1.03, boxShadow: '0 10px 20px rgba(0,0,0,0.08)' }} transition={{ duration: 0.3, ease: 'easeOut' }}>
+                  <Card className="text-center p-8 h-full">
+                    <CardContent className="space-y-4">
+                      <motion.div whileHover={{ rotate: 10, scale: 1.2 }} className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                        <item.icon className="h-8 w-8 text-primary" />
+                      </motion.div>
+                      <h3 className="text-xl font-semibold">{item.title}</h3>
+                      <p className="text-muted-foreground">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Success Stories */}
-      <section className="py-20">
+      <motion.section 
+        className="py-24"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
+            <motion.div className="relative" variants={cardVariants}>
               <Image
                 src="/images/business-growth.jpg"
                 alt="Business growth and success"
@@ -165,10 +228,10 @@ export default function HomePage() {
                 height={400}
                 className="w-full h-auto object-cover rounded-2xl"
               />
-            </div>
+            </motion.div>
 
-            <div className="space-y-8">
-              <div className="space-y-4">
+            <motion.div className="space-y-8" variants={cardContainerVariants}>
+              <motion.div className="space-y-4" variants={cardVariants}>
                 <Badge variant="secondary" className="w-fit">
                   Success Stories
                 </Badge>
@@ -177,10 +240,10 @@ export default function HomePage() {
                   From entry-level positions to executive roles, RNRS has helped thousands of Rwandans find meaningful
                   employment and build successful careers.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
+              <motion.div className="space-y-4" variants={cardContainerVariants}>
+                <motion.div variants={cardVariants} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <div className="font-semibold">95% Success Rate</div>
@@ -188,8 +251,8 @@ export default function HomePage() {
                       Job seekers who complete their profiles get hired within 3 months
                     </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
+                </motion.div>
+                <motion.div variants={cardVariants} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <div className="font-semibold">Quality Employers</div>
@@ -197,8 +260,8 @@ export default function HomePage() {
                       Vetted companies offering competitive salaries and growth opportunities
                     </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
+                </motion.div>
+                <motion.div variants={cardVariants} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <div className="font-semibold">Career Support</div>
@@ -206,19 +269,21 @@ export default function HomePage() {
                       Professional guidance and resources to advance your career
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <Button size="lg" asChild>
-                <Link href="/about">
-                  Read Success Stories
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+                </motion.div>
+              </motion.div>
+              
+              <motion.div variants={cardVariants}>
+                <Button size="lg" asChild>
+                  <Link href="/about">
+                    Read Success Stories
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA Section */}
       <section className="py-20 bg-primary text-primary-foreground">
@@ -230,20 +295,24 @@ export default function HomePage() {
               just a click away.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <Link href="/auth/signup">
-                  Create Your Profile
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
-                asChild
-              >
-                <Link href="/jobs">Explore Jobs</Link>
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+                <Button size="lg" variant="secondary" asChild>
+                  <Link href="/auth/signup">
+                    Create Your Profile
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
+                  asChild
+                >
+                  <Link href="/jobs">Explore Jobs</Link>
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>

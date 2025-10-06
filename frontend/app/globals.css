@@ -4,6 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-inter: 'Inter', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-lato: 'Lato', sans-serif;
+  
   /* Updated to light mode as default with proper red/maroon colors */
   --background: 255 255 255;
   --foreground: 15 23 42;
@@ -102,8 +106,9 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-body: var(--font-lato);
+  --font-heading: var(--font-poppins);
   --color-background: rgb(var(--background));
   --color-foreground: rgb(var(--foreground));
   --color-card: rgb(var(--card));
@@ -151,65 +156,33 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
   }
 
-  h1 {
-    @apply text-4xl font-bold tracking-tight;
+  p {
+    @apply font-body font-normal;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
   }
 
-  h2 {
-    @apply text-3xl font-bold tracking-tight;
-  }
-
-  h3 {
-    @apply text-2xl font-semibold tracking-tight;
-  }
-
-  h4 {
-    @apply text-xl font-semibold tracking-tight;
+  button {
+    @apply font-heading font-semibold;
   }
 }
 
-/* Global cursor pointer styles for interactive elements */
-@layer base {
-  button,
-  [role="button"],
-  .cursor-pointer,
-  a[href],
-  label[for],
-  select,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  input[type="checkbox"],
-  input[type="radio"],
-  [data-radix-collection-item],
-  [data-state],
-  .clickable {
-    cursor: pointer !important;
-  }
+/* Custom glow effect for buttons */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+  100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.4); }
+}
 
-  /* Ensure disabled elements don't show pointer cursor */
-  button:disabled,
-  input:disabled,
-  select:disabled,
-  textarea:disabled,
-  [aria-disabled="true"],
-  [data-disabled="true"] {
-    cursor: not-allowed !important;
-  }
-
-  /* Loading states */
-  .loading,
-  [data-loading="true"] {
-    cursor: wait !important;
-  }
-
-  /* Hover effects for buttons */
-  button:not(:disabled):hover,
-  [role="button"]:not([aria-disabled="true"]):hover {
-    transform: translateY(-1px);
-    transition: transform 0.2s ease;
-  }
+.button-glow:hover {
+  animation: glow 1.5s infinite alternate;
 }

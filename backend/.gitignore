@@ -174,3 +174,5 @@ Thumbs.db
 
 # Prisma
 prisma/migrations/
+
+repomix-output.xml
